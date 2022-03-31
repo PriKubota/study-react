@@ -1,5 +1,4 @@
-import Image from 'next/image'
-import classes from './Header.module.css'
+import classes from 'src/components/Header/Header.module.css'
 import Link from "next/link"
 
 export function Header() {
