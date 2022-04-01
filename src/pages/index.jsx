@@ -8,31 +8,32 @@ import { useCallback, useEffect, useState } from 'react'
 export default function Home() {
 
   const [count , setCount] = useState(1);
-  // let foo = 1;
-
-
   // コンポネント内に書くパターンは再レンダリング時に再生成されるデメリットがある
   // コンポネントの外に書くと引数を渡すことが必要になったりして煩雑になる可能性もある
   // useCallbackで再レンダリング時に生成されないのでパフォーマンスが向上する
-  const handleClick = (e) => {
-    // foo += 1;
-    // console.log(foo)
+  const handleClick = useCallback((e) => {
     // 前の状態を用いてそれに対して処理を行いたい場合は関数で記載する
-    setCount((count) => count + 1);
-  };
+    if (count < 10) {
+      console.log(count)
+      setCount((count) => count + 1);
+    }
+  }, [count]);
 
   useEffect(() => {
     // マウント時の処理
     // このようにDOM要素に直接アクセスするのはNGだったりする
-    console.log('マウント')
+    console.log(`マウント時：${count}`);
+    
     document.body.style.backgroundColor = 'lightblue';
   
     // アンマウント時の処理
+    // クリーンアップファンクションとも呼ばれる
     return () => {
-      console.log('アンマウント')
+      console.log(`アマウント時：${count}`)
       document.body.style.backgroundColor = '';
     }
-  }, []);
+    // 第2引数を設定すると変数が変更されたタイミングで改めてuseEffectの処理が実行される
+  }, [count]);
 
 
   return (
@@ -44,7 +45,6 @@ export default function Home() {
       <h1>{count}</h1>
       <button href='/about'
         onClick={handleClick}
-        //  onClick={() => alert(123)} 
         >ボタン</button>
       <Main page="index" />
       <Footer />
