@@ -8,6 +8,8 @@ import { useCallback, useEffect, useState } from 'react'
 export default function Home() {
 
   const [count , setCount] = useState(1);
+  const [text, setText] = useState("");
+  const [isShow, setIsShow] = useState(true);
   // コンポネント内に書くパターンは再レンダリング時に再生成されるデメリットがある
   // コンポネントの外に書くと引数を渡すことが必要になったりして煩雑になる可能性もある
   // useCallbackで再レンダリング時に生成されないのでパフォーマンスが向上する
@@ -35,6 +37,18 @@ export default function Home() {
     // 第2引数を設定すると変数が変更されたタイミングで改めてuseEffectの処理が実行される
   }, [count]);
 
+  const handleChange = useCallback((e) => {
+    if (e.target.value.length > 5) {
+      alert("5文字まで！");
+      return;
+    }
+    setText(e.target.value.trim());
+  }, []);
+
+  const handleDisplay = useCallback((isShow) => {
+    // 前回の値を使いたいときは関数にする
+    setIsShow((isShow) => !isShow);
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -42,10 +56,14 @@ export default function Home() {
         <title>index page</title>
       </Head>
       <Header />
-      <h1>{count}</h1>
+      {/* reactではif文を使えないので三項演算子を使う */}
+      {isShow ? <h1>{count}</h1> : null} 
       <button href='/about'
         onClick={handleClick}
         >ボタン</button>
+      <button onClick={handleDisplay}>{isShow ? "非表示" : "表示"}</button>
+      <input type="text" value={text}
+      onChange={handleChange}/>
       <Main page="index" />
       <Footer />
     </div>
