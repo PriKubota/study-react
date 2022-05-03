@@ -8,7 +8,7 @@ export function Headline(props) {
         {props.page}Page!!kubota
         </h1>
         <p className={classes.description}>
-        Get started by editing {props.children}
+        アイテムの数は{props.children}個です
         </p>
     </div>
   )

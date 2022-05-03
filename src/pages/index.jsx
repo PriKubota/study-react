@@ -7,11 +7,9 @@ import { useCounter } from 'src/hooks/useCounter'
 import { useInputArray } from 'src/hooks/useInputArray'
 import { useBgLightBlue } from 'src/hooks/useBgLightBlue'
 
-export default function Home() {
+export default function Home(props) {
   // フックはreturnの前で呼び出す
-  const {count, isShow, handleClick, handleDisplay} = useCounter();
-  const {text, array, handleChange, handleAdd} = useInputArray();
-  useBgLightBlue();
+  const {count, isShow, handleClick, handleDisplay, text, array, handleChange, handleAdd} = props
   // コンポネント内に書くパターンは再レンダリング時に再生成されるデメリットがある
   // コンポネントの外に書くと引数を渡すことが必要になったりして煩雑になる可能性もある
   // useCallbackで再レンダリング時に生成されないのでパフォーマンスが向上する
